@@ -1,4 +1,7 @@
 
+import javax.swing.JOptionPane;
+
+
 public class cadastroVIEW extends javax.swing.JFrame {
 
     public cadastroVIEW() {
@@ -124,10 +127,12 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNomeActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+       try {
         ProdutosDTO produto = new ProdutosDTO();
         String nome = cadastroNome.getText();
         String valor = cadastroValor.getText();
         String status = "A Venda";
+        
         produto.setNome(nome);
         produto.setValor(Integer.parseInt(valor));
         produto.setStatus(status);
@@ -135,6 +140,20 @@ public class cadastroVIEW extends javax.swing.JFrame {
         ProdutosDAO produtodao = new ProdutosDAO();
         produtodao.cadastrarProduto(produto);
         
+        
+        if (produtodao.isCadastroSucesso()) {
+            JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!");
+            cadastroNome.setText("");
+            cadastroValor.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar produto!");
+        }
+        
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Por favor, digite um valor numérico válido!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Erro inesperado ao cadastrar produto!");
+    }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
